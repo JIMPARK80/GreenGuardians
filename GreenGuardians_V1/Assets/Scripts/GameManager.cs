@@ -1,72 +1,72 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine; // Unity 엔진 관련 네임스페이스 / Unity Engine Related Namespace
+using TMPro; // TextMeshPro 관련 네임스페이스 / TextMeshPro Related Namespace
+using UnityEngine.SceneManagement; // 씬 전환 관련 네임스페이스 / Scene Change Related Namespace
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Manager Class
 {
-    public TMP_Text timerText, scoreText, targetText, overflowText;
-    public GameObject stageClearPanel, gameOverPanel;
+    public TMP_Text timerText, scoreText, targetText, overflowText; // 텍스트 표시 관련 변수 / Text Display Related Variables
+    public GameObject stageClearPanel, gameOverPanel; // 패널 표시 관련 변수 / Panel Display Related Variables
 
-    [Header("Stage Settings")]
-    public int targetScore = 10;
-    public float timeLimit = 60f;
+    [Header("Stage Settings")] // 스테이지 설정 관련 헤더 / Stage Settings Related Header
+    public int targetScore = 10; // 목표 점수 / Target Score
+    public float timeLimit = 60f; // 시간 제한 / Time Limit
 
-    private int score = 0;
-    private int overflowCount = 0;
-    private float timeLeft;
+    private int score = 0; // 점수 변수 / Score Variable
+    private int overflowCount = 0; // 오버플로우 카운트 변수 / Overflow count variable
+    private float timeLeft; // 남은 시간 변수 / Remaining time variable
 
-    void Start()
+    void Start() // 게임 시작 시 초기화 / Initialize when the game starts
     {
-        timeLeft = timeLimit;
-        UpdateUI();
-        stageClearPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
+        timeLeft = timeLimit; // 시간 초기화 / Initialize time
+        UpdateUI(); // UI 업데이트 / Update UI
+        stageClearPanel.SetActive(false); // 스테이지 클리어 패널 비활성화 / Disable stage clear panel
+        gameOverPanel.SetActive(false); // 게임 오버 패널 비활성화 / Disable game over panel
     }
 
-    void Update()
+    void Update() // 게임 진행 중 업데이트 / Update during the game
     {
-        timeLeft -= Time.deltaTime;
-        UpdateUI();
+        timeLeft -= Time.deltaTime; // 시간 감소 / Decrease time
+        UpdateUI(); // UI 업데이트 / Update UI
 
-        if (timeLeft <= 0)
+        if (timeLeft <= 0) // 시간 종료 시
         {
-            if (score >= targetScore) stageClearPanel.SetActive(true);
-            else gameOverPanel.SetActive(true);
+            if (score >= targetScore) stageClearPanel.SetActive(true); // 목표 점수 달성 시 스테이지 클리어 패널 활성화 / Activate stage clear panel if target score is reached
+            else gameOverPanel.SetActive(true); // 목표 점수 달성 시 게임 오버 패널 활성화 / Activate game over panel if target score is not reached
 
-            Time.timeScale = 0f;
+            Time.timeScale = 0f; // 게임 일시정지 / Pause the game
         }
     }
 
-    public void AddScore()
+    public void AddScore() // 점수 증가 / Increase score
     {
-        score++;
-        UpdateUI();
+        score++; // 점수 증가 / Increase score
+        UpdateUI(); // UI 업데이트 / Update UI
     }
 
-    public void OverflowPenalty()
+    public void OverflowPenalty() //
     {
-        overflowCount++;
-        timeLeft -= 0f;
-        UpdateUI();
+        overflowCount++; // 오버플로우 카운트 증가 / Increase overflow count
+        timeLeft -= 0f;// 시간 감소 / Decrease time
+        UpdateUI(); // UI 업데이트 / Update UI
+    }
+ 
+    public void Retry() // 게임 재시작 / Retry the game
+    {
+        Time.timeScale = 1f; // 게임 재개 / Resume the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 로드 / Load the current scene
     }
 
-    public void Retry()
+    public void NextStage() // 다음 스테이지 로드 / Load the next stage
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1f; // 게임 재개 / Resume the game
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 로드 / Load the current scene
     }
 
-    public void NextStage()
+    private void UpdateUI() // UI 업데이트 / Update UI
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    private void UpdateUI()
-    {
-        timerText.text = "Time: " + Mathf.Ceil(timeLeft);
-        scoreText.text = "Score: " + score;
-        targetText.text = "Target: " + score + " / " + targetScore;
-        overflowText.text = "Overflow: " + overflowCount;
+        timerText.text = "Time: " + Mathf.Ceil(timeLeft); // 시간 표시 / Display time
+        scoreText.text = "Score: " + score; // 점수 표시 / Display score
+        targetText.text = "Target: " + score + " / " + targetScore; // 목표 점수 표시 / Display target score
+        overflowText.text = "Overflow: " + overflowCount; // 오버플로우 카운트 표시 / Display overflow count
     }
 }
