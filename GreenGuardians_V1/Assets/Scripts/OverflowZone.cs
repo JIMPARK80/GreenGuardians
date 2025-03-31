@@ -8,6 +8,7 @@ public class OverflowZone : MonoBehaviour
     {
         if (other.CompareTag("Trash"))
         {
+            Debug.Log("overflow delete");
             gameManager.OverflowPenalty();
             Destroy(other.gameObject);
         }

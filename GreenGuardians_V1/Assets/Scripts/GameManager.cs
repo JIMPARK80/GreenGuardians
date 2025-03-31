@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text timerText;
     public TMP_Text scoreText;
     public TMP_Text targetText;
-
+    public TMP_Text overflowText;
     public GameObject stageClearPanel;
     public GameObject gameOverPanel;
 
@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 60f;
 
     private int score = 0;
+    private int overflowCount = 0;
+
+
+
 
     void Update()
     {
@@ -44,7 +48,9 @@ public class GameManager : MonoBehaviour
 
     public void OverflowPenalty()
     {
-        timeLeft -= 5f; // 오버플로우 패널티
+        overflowCount++;
+        overflowText.text = "Overflow : " + overflowCount;  // ? 실시간 업데이트
+        timeLeft -= 5f; // 기존 패널티 유지
     }
 
     public void LoadNextScene()
@@ -58,4 +64,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+
 }

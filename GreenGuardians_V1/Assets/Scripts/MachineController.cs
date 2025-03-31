@@ -3,11 +3,11 @@ using UnityEngine;
 public class MachineController : MonoBehaviour
 {
     public float speed = 1.0f;
-    public int capacity = 3;
+    public float capacity = 1.0f;
 
     public void Upgrade()
     {
         speed += 0.5f;
-        capacity += 1;
+        capacity += 0.5f;
     }
 }

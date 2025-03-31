@@ -14,7 +14,7 @@ public class TrashSpawner : MonoBehaviour
 
     void SpawnTrash()
     {
-        GameObject t = Instantiate(trashPrefab, transform.position, Quaternion.identity);
-        t.GetComponent<Trash>().machine = machine; // 여기서 자동 연결
+        GameObject newTrash = Instantiate(trashPrefab, transform.position, Quaternion.identity);
+        newTrash.GetComponent<Trash>().machine = machine; // ? 반드시 연결
     }
 }
