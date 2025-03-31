@@ -20,9 +20,12 @@ public class MenuButtons : MonoBehaviour
         Debug.Log("Exit Clicked (won't work in editor)");
     }
 
+    /*
     public void BackToTitle()
     {
         Time.timeScale = 1f;  // ¡ﬂø‰!! ∏ÿ√„ «Æ±‚
         SceneManager.LoadScene("GameStart");
     }
+    */
+
 }

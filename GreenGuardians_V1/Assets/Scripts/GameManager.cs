@@ -13,10 +13,11 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
 
     private int score = 0; // 점수 변수 / Score Variable
     private int overflowCount = 0; // 오버플로우 카운트 변수 / Overflow count variable
-    private float timeLeft; // 남은 시간 변수 / Remaining time variable
+    public float timeLeft; // 남은 시간 변수 / Remaining time variable
 
     void Start() // 게임 시작 시 초기화 / Initialize when the game starts
     {
+        Time.timeScale = 1f; // 게임 시작할 때 시간 스케일 초기화
         timeLeft = timeLimit; // 시간 초기화 / Initialize time
         UpdateUI(); // UI 업데이트 / Update UI
         stageClearPanel.SetActive(false); // 스테이지 클리어 패널 비활성화 / Disable stage clear panel
@@ -50,12 +51,6 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
         UpdateUI(); // UI 업데이트 / Update UI
     }
  
-    public void Retry() // 게임 재시작 / Retry the game
-    {
-        Time.timeScale = 1f; // 게임 재개 / Resume the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 로드 / Load the current scene
-    }
-
     public void NextStage() // 다음 스테이지 로드 / Load the next stage
     {
         Time.timeScale = 1f; // 게임 재개 / Resume the game
@@ -68,5 +63,17 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
         scoreText.text = "Score: " + score; // 점수 표시 / Display score
         targetText.text = "Target: " + score + " / " + targetScore; // 목표 점수 표시 / Display target score
         overflowText.text = "Overflow: " + overflowCount; // 오버플로우 카운트 표시 / Display overflow count
+    }
+
+    public void Retry() // 게임 재시작 / Retry the game
+    {
+        SceneManager.LoadScene("MainScene"); // Change to your real game scene name
+        Time.timeScale = 1f; // << 반드시 추가
+    }
+
+    public void BackToTitle()
+    {
+        SceneManager.LoadScene("GameStart");
+        Time.timeScale = 1f;  // 중요!! 멈춤 풀기
     }
 }
