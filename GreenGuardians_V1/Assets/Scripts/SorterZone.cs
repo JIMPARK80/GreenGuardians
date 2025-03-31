@@ -2,6 +2,7 @@ using UnityEngine; // Unity 엔진 관련 네임스페이스 / Unity Engine Rela
 
 public class SorterZone : MonoBehaviour // 정렬 존 클래스 / Sorter Zone Class
 {
+    
     public MachineController machine; // 기계 컨트롤러 변수 / Machine Controller Variable
     public GameManager gameManager; // 게임 매니저 변수 / Game Manager Variable
 
