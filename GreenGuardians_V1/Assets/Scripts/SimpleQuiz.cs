@@ -80,7 +80,7 @@ public class SimpleQuiz : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = $"Score: {score}";
+            scoreText.text = $"Skill Point: {score}";
         }
     }
 }

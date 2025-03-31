@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
     private int score = 0; // 점수 변수 / Score Variable
     private int overflowCount = 0; // 오버플로우 카운트 변수 / Overflow count variable
     public float timeLeft; // 남은 시간 변수 / Remaining time variable
+    public int quizScore = 0;
 
     void Start() // 게임 시작 시 초기화 / Initialize when the game starts
     {
@@ -76,4 +77,21 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
         SceneManager.LoadScene("GameStart");
         Time.timeScale = 1f;  // 중요!! 멈춤 풀기
     }
+
+    public bool UseSkill(int cost)
+    {
+        if (quizScore >= cost)
+        {
+            quizScore -= cost;
+            Debug.Log($"스킬 사용! 잔여 포인트 {quizScore}");
+            return true;
+        }
+        else
+        {
+            Debug.Log("포인트 부족");
+            return false;
+        }
+    }
+
+
 }
