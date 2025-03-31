@@ -1,69 +1,72 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement; // <-- 요거 추가
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public TMP_Text timerText;
-    public TMP_Text scoreText;
-    public TMP_Text targetText;
-    public TMP_Text overflowText;
-    public GameObject stageClearPanel;
-    public GameObject gameOverPanel;
+    public TMP_Text timerText, scoreText, targetText, overflowText;
+    public GameObject stageClearPanel, gameOverPanel;
 
-    public int targetScore = 20;
-    public float timeLeft = 60f;
+    [Header("Stage Settings")]
+    public int targetScore = 10;
+    public float timeLimit = 60f;
 
     private int score = 0;
     private int overflowCount = 0;
+    private float timeLeft;
 
-
-
+    void Start()
+    {
+        timeLeft = timeLimit;
+        UpdateUI();
+        stageClearPanel.SetActive(false);
+        gameOverPanel.SetActive(false);
+    }
 
     void Update()
     {
-        // ? UI를 항상 갱신해야 화면에 표시됨
         timeLeft -= Time.deltaTime;
+        UpdateUI();
 
-        timerText.text = "Time: " + Mathf.Ceil(timeLeft);
-        scoreText.text = "Score: " + score;
-        targetText.text = "Target: " + score + " / " + targetScore;
-
-        // 시간 끝
         if (timeLeft <= 0)
         {
-            if (score >= targetScore)
-                stageClearPanel.SetActive(true);
-            else
-                gameOverPanel.SetActive(true);
+            if (score >= targetScore) stageClearPanel.SetActive(true);
+            else gameOverPanel.SetActive(true);
 
-            Time.timeScale = 0f; // 게임 정지
+            Time.timeScale = 0f;
         }
     }
 
     public void AddScore()
     {
-        score++; // 점수만 증가
+        score++;
+        UpdateUI();
     }
 
     public void OverflowPenalty()
     {
         overflowCount++;
-        overflowText.text = "Overflow : " + overflowCount;  // ? 실시간 업데이트
-        timeLeft -= 5f; // 기존 패널티 유지
+        timeLeft -= 0f;
+        UpdateUI();
     }
 
-    public void LoadNextScene()
-    {
-        Time.timeScale = 1f;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void RestartScene()
+    public void Retry()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void NextStage()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
+    private void UpdateUI()
+    {
+        timerText.text = "Time: " + Mathf.Ceil(timeLeft);
+        scoreText.text = "Score: " + score;
+        targetText.text = "Target: " + score + " / " + targetScore;
+        overflowText.text = "Overflow: " + overflowCount;
+    }
 }

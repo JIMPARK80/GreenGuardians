@@ -3,9 +3,9 @@ using UnityEngine;
 public class TrashSpawner : MonoBehaviour
 {
     public GameObject trashPrefab;
-    public MachineController machine; // 추가
-
+    public MachineController machine;
     public float spawnInterval = 2f;
+    public GameManager gameManager;
 
     private void Start()
     {
@@ -15,6 +15,7 @@ public class TrashSpawner : MonoBehaviour
     void SpawnTrash()
     {
         GameObject newTrash = Instantiate(trashPrefab, transform.position, Quaternion.identity);
-        newTrash.GetComponent<Trash>().machine = machine; // ? 반드시 연결
+        newTrash.GetComponent<Trash>().machine = machine;
+        newTrash.GetComponent<Trash>().gameManager = gameManager;  // ? 반드시 추가
     }
 }
