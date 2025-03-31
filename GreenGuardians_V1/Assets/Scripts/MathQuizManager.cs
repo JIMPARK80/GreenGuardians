@@ -1,35 +1,69 @@
-using UnityEngine; // Unity 엔진 관련 네임스페이스 / Unity Engine Related Namespace
-using UnityEngine.UI; //
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class MathQuizManager : MonoBehaviour // 수학 퀴즈 매니저 클래스 / Math Quiz Manager Class
+public class MathQuizManager : MonoBehaviour
 {
-    public Text quizText; // 퀴즈 텍스트 변수 / Quiz Text Variable
-    public InputField inputField; // 입력 필드 변수 / Input Field Variable
-    public MachineController machine; // 기계 컨트롤러 변수 / Machine Controller Variable
+    public MachineController machine;        // 머신 스크립트 연결
+    public GameObject quizPanel;             // 퀴즈 패널
+    public TMP_InputField answerInput;       // 입력창
+    public TextMeshProUGUI questionText;     // 문제 텍스트
+    private bool isQuizActive = false;
 
-    private int answer; // 정답 변수 / Answer Variable
+    private int num1, num2;                  // 문제 숫자
+    private float cooldownTime = 5f;         // 퀴즈 재출제 쿨다운
+    private float nextQuizTime;              // 다음 퀴즈 시간
 
-    private void Start() // 시작 시 퀴즈 생성 / Generate quiz when starting
+    void Start()
     {
-        GenerateQuiz(); // 퀴즈 생성 / Generate quiz
+        quizPanel.SetActive(false);   // 처음엔 안보임
+        nextQuizTime = Time.time + cooldownTime;
+        answerInput.onSubmit.AddListener(delegate { CheckAnswer(); });
     }
 
-    void GenerateQuiz()
+    void Update()
     {
-        int a = Random.Range(1, 10); // 1부터 9 사이의 랜덤 숫자 생성 / Generate random number between 1 and 9
-        int b = Random.Range(1, 10); // 1부터 9 사이의 랜덤 숫자 생성 / Generate random number between 1 and 9
-        answer = a + b; // 정답 계산 / Calculate answer
-        quizText.text = $"{a} + {b} = ?"; // 퀴즈 텍스트 업데이트 / Update quiz text
-    }
-
-    public void CheckAnswer() // 정답 확인 / Check answer
-    {
-        if (int.TryParse(inputField.text, out int userAnswer) && userAnswer == answer) // 입력한 값이 정수이고 정답인 경우
+        // 쿨다운 끝나면 퀴즈 재생성
+        if (!quizPanel.activeSelf && Time.time > nextQuizTime)
         {
-            machine.Upgrade(); // 기계 업그레이드 / Upgrade machine
-            Debug.Log("Correct answer! Machine upgraded"); // 정답 로그 출력 / Log answer
+            ShowNewQuestion();
         }
-        inputField.text = ""; // 입력 필드 초기화 / Clear input field
-        GenerateQuiz(); // 퀴즈 생성 / Generate quiz
+    }
+
+    void ShowNewQuestion()
+    {
+        // 문제 생성
+        num1 = Random.Range(1, 10);
+        num2 = Random.Range(1, 10);
+        questionText.text = $"{num1} + {num2} = ?";
+
+        // 입력창 초기화 + 포커스
+        answerInput.text = "";
+        quizPanel.SetActive(true);
+        answerInput.ActivateInputField();
+        isQuizActive = true;   // ★★★ 중요!!
+    }
+
+    void CheckAnswer()
+    {
+        if (!isQuizActive) return;
+        // 입력값 정수로 변환 시도
+        if (int.TryParse(answerInput.text, out int answer))
+        {
+            if (answer == num1 + num2)
+            {
+                machine.Upgrade();   // 정답이면 업그레이드
+                Debug.Log("정답! Speed +1");
+            }
+            else
+            {
+                Debug.Log("오답");
+            }
+
+            // 퀴즈 닫기 및 쿨다운 시작
+            quizPanel.SetActive(false);
+            nextQuizTime = Time.time + cooldownTime;
+            isQuizActive = false;   // ★★★ 쿨다운 진입
+        }
     }
 }

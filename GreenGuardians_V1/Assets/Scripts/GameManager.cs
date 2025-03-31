@@ -53,8 +53,8 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
  
     public void NextStage() // 다음 스테이지 로드 / Load the next stage
     {
-        Time.timeScale = 1f; // 게임 재개 / Resume the game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // 현재 씬 로드 / Load the current scene
+        SceneManager.LoadScene("MainScene"); // Change to your real game scene name
+        Time.timeScale = 1f; // << 반드시 추가
     }
 
     private void UpdateUI() // UI 업데이트 / Update UI

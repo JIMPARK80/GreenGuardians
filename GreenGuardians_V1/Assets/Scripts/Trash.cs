@@ -20,7 +20,6 @@ public class Trash : MonoBehaviour // 쓰레기 클래스 / Trash Class
 
         if (isSorting && transform.position.y < -2f) // 완전히 정렬된 경우 (화면 아래로 나간 경우)
         {
-            machine.capacity++; // 기계 용량 증가 / Increase machine capacity
             Destroy(gameObject);
             Debug.Log("sorting");
         }
@@ -47,5 +46,11 @@ public class Trash : MonoBehaviour // 쓰레기 클래스 / Trash Class
         moveDir = Vector2.right; // 이동 방향 변수 설정 / Set movement direction variable
         sr.color = Color.red; // 스프라이트 렌더러 색상 변경 / Change sprite renderer color
         Debug.Log("Overflow: Start overflow + red"); // 오버플로우 로그 출력 / Log overflow
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // capacity 관련 체크 제거
+        // 필요한 로직만 남기기
     }
 }

@@ -16,11 +16,12 @@ public class SorterZone : MonoBehaviour // 정렬 존 클래스 / Sorter Zone Cl
 
         Trash trash = other.GetComponent<Trash>(); // 쓰레기 컴포넌트 가져오기 / Get trash component
 
-        // 기계 용량이 0보다 크고 마지막 정렬 시간이 정렬 쿨다운 시간보다 크거나 같은 경우
-        if (machine.capacity > 0 && Time.time - lastSortTime >= sortCooldown)
+        float sortingTime = 1f / machine.speed;  // 처리 속도에 따른 정렬 시간 계산
+
+        // capacity 체크 대신 쿨다운만 체크
+        if (Time.time - lastSortTime >= sortCooldown)
         {
             lastSortTime = Time.time; // 마지막 정렬 시간 업데이트 / Update last sort time
-            machine.capacity--; // 기계 용량 감소 / Decrease machine capacity
             trash.StartSorting(); // 쓰레기 정렬 시작 / Start sorting trash
             gameManager.AddScore(); // 점수 증가 / Increase score
         }
