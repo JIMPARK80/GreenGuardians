@@ -32,8 +32,14 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
 
         if (timeLeft <= 0) // 시간 종료 시
         {
-            if (score >= targetScore) stageClearPanel.SetActive(true); // 목표 점수 달성 시 스테이지 클리어 패널 활성화 / Activate stage clear panel if target score is reached
-            else gameOverPanel.SetActive(true); // 목표 점수 달성 시 게임 오버 패널 활성화 / Activate game over panel if target score is not reached
+            if (score >= targetScore)
+            {
+                stageClearPanel.SetActive(true); // 목표 점수 달성 시 스테이지 클리어 패널 활성화 / Activate stage clear panel if target score is reached
+            }
+            else
+            {
+                gameOverPanel.SetActive(true); // 목표 점수 달성 시 게임 오버 패널 활성화 / Activate game over panel if target score is not reached
+            } 
 
             Time.timeScale = 0f; // 게임 일시정지 / Pause the game
         }
@@ -62,7 +68,7 @@ public class GameManager : MonoBehaviour // 게임 매니저 클래스 / Game Ma
     {
         timerText.text = "Time: " + Mathf.Ceil(timeLeft); // 시간 표시 / Display time
         scoreText.text = "Score: " + score; // 점수 표시 / Display score
-        targetText.text = "Target: " + score + " / " + targetScore; // 목표 점수 표시 / Display target score
+        targetText.text = "Target: " + score + "/" + targetScore; // 목표 점수 표시 / Display target score
         overflowText.text = "Overflow: " + overflowCount; // 오버플로우 카운트 표시 / Display overflow count
     }
 

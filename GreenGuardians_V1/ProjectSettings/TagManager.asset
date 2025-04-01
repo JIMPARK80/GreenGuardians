@@ -14,8 +14,8 @@ TagManager:
   - Water
   - UI
   - GamePanel
-  - 
-  - 
+  - Panel
+  - Stage_Gameover
   - 
   - 
   - 
@@ -42,12 +42,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: GamePanel
-    uniqueID: 2228798945
-    locked: 0
-  - name: UI
-    uniqueID: 1238080529
     locked: 0
   m_RenderingLayers:
   - Default
