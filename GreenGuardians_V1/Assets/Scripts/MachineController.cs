@@ -1,17 +1,17 @@
-using UnityEngine; // Unity 엔진 관련 네임스페이스 / Unity Engine Related Namespace
+using UnityEngine; // Unity Engine Related Namespace
 
-public class MachineController : MonoBehaviour // 기계 컨트롤러 클래스 / Machine Controller Class
+    public class MachineController : MonoBehaviour // Machine Controller Class
 {
-    public float speed = 1.0f;  // 처리 속도만 남김
+    public float speed = 1.0f;  // speed
     
     public void Upgrade()
     {
-        speed += 0.5f;  // 퀴즈 맞출 때마다 속도만 증가
+        speed += 0.5f;  // when quiz is correct, only speed increases
         Debug.Log($"Machine Speed Upgraded: {speed:F1}");
     }
 
     public void ResetMachine()
     {
-        speed = 1.0f;  // 초기화도 속도만
+        speed = 1.0f;  // when reset, only speed is reset
     }
 }

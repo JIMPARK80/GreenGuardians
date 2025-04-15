@@ -4,21 +4,21 @@ using TMPro;
 
 public class SimpleQuiz : MonoBehaviour
 {
-    public GameObject quizPanel;
-    public TMP_InputField answerInput;
-    public TextMeshProUGUI questionText;
-    public TextMeshProUGUI scoreText;  // 점수 표시용 텍스트
-    public Button submitButton;  // 제출 버튼 추가
+    public GameObject quizPanel; // quiz panel          
+    public TMP_InputField answerInput; // input field
+    public TextMeshProUGUI questionText; // question text
+    public TextMeshProUGUI scoreText;  // display score
+    public Button submitButton;  // submit button
 
     private int num1, num2;
-    private int score = 0;  // 점수 변수 추가
-    private float cooldownTime = 3f;
-    private float nextQuizTime;
-    private bool isQuizActive = true;
+    private int score = 0;  // score variable
+    private float cooldownTime = 3f; // cooldown time
+    private float nextQuizTime; // next quiz time
+    private bool isQuizActive = true; // quiz active
 
     public void Start()
     {
-        // 버튼 클릭 이벤트 연결
+        // connect button click event
         submitButton.onClick.AddListener(CheckAnswer);
         ShowNewQuestion();
         UpdateScoreText();
@@ -26,13 +26,13 @@ public class SimpleQuiz : MonoBehaviour
 
     public void Update()
     {
-        // 쿨다운 후 새 문제 표시
+        // after cooldown, show new question
         if (!quizPanel.activeSelf && Time.time >= nextQuizTime)
         {
             ShowNewQuestion();
         }
 
-        // 입력 필드 자동 포커스
+        // automatically focus on input field
         if (!answerInput.isFocused && quizPanel.activeSelf)
         {
             answerInput.ActivateInputField();
@@ -58,19 +58,19 @@ public class SimpleQuiz : MonoBehaviour
             {
                 score++;
                 UpdateScoreText();
-                Debug.Log($"정답! 현재 점수: {score}");
-                ShowNewQuestion();  // 바로 새로운 문제 표시
+                Debug.Log($"Correct! Current score: {score}");
+                ShowNewQuestion();  // show new question immediately
             }
             else
             {
-                Debug.Log($"오답! 정답은 {num1 + num2}입니다.");
-                answerInput.text = "";  // 오답인 경우 입력 필드만 초기화
+                Debug.Log($"Wrong! The answer is {num1 + num2}.");
+                answerInput.text = "";  // if wrong, only reset input field
                 answerInput.ActivateInputField();
             }
         }
         else
         {
-            Debug.Log("숫자를 입력해주세요!");
+            Debug.Log("Please enter a number!");
             answerInput.text = "";
             answerInput.ActivateInputField();
         }
